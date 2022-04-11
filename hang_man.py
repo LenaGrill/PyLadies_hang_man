@@ -32,13 +32,15 @@ def evaluate_letter(status, res, chosen_letter):
         for position in range(0, len(status)):
             letter_position = position + 1
             if letter_position in res:
-                status2 = status2 + status[position].replace("_", chosen_letter)
+                status2 = status2 + chosen_letter # status[position].replace("_", chosen_letter)
             else:
                 status2 = status2 + status[position]
         status = status2
     return status
                           
 def evaluate_status(status):
+    """This function evaluates the status of the replaced underscores and returns,
+    if the game is finished or is still on"""
     if "_" in status:
         move_on = True
     else:
@@ -47,6 +49,7 @@ def evaluate_status(status):
     return move_on 
 
 def move_count(word, status, move_on):
+    """ This functions counts the moves and returns the evaluation status"""
     for move in range(9):
         chosen_letter = str(input("Please select a letter: "))
         # print(chosen_letter)
@@ -56,18 +59,19 @@ def move_count(word, status, move_on):
             status = evaluate_letter(status, res, chosen_letter)
             print(status)
             print("This was move number: ", move + 1)
-             
         else:
             print("Please enter a single letter!")
-            
+            print("This was move number: ", move + 1)
         move_on = evaluate_status(status)
-        if evaluate_status(status) == False:
+        if move_on == False:
             break
         
     return move_on
 
 
 def hang_man():
+    """ This is the function for the actual hang_man using and calling all the functions above. 
+    """
     word = word_generator("lalalala", "lelelele", "lililili") # calls the word generator to randomly choose one of these words
     status = "_" * len(word) # a status with the length of the chosen word will be generated
     print(status)
@@ -82,9 +86,9 @@ def hang_man():
             print("You loose!")
             break
     
-     
-        
-    
-        
-
 hang_man()
+
+""" The only error I find so far is that winning is printed twice.
+
+Improvements to make: Currently, the input of several letters is counted as a move, 
+but doesn't """
