@@ -13,30 +13,34 @@ def word_generator(a, b, c):
 
 def evaluate_position(chosen_letter, word):
     """ this for loop returns a list res with the positions of the chosen_letter """
-    res = []
+    result = []
     for i in range(0, len(word)): 
         #print(i)
         if word[i] == chosen_letter:
-            res = res + [i + 1]     
-    return res  
+            result = result + [i + 1]     
+    return result  
 
-def evaluate_letter(status, res, chosen_letter):
+def evaluate_letter(status, result, chosen_letter):
     """ This function evaluates, if the chosen_letter is contained in the given word 
     and replaces underscore by chosen_letter"""
-    if res == []: # if list res is empty, the chosen letter is not contained in the word
+    
+    if result == []: # if list res is empty, the chosen letter is not contained in the word
         print("Wrong letter!")
-        # print(status)         
+        # print(status)
+        unsuccessful_try = True        
     else: # if res is not empty, the chosen letter is contained
         print("Strike!")
         status2 = ""
         for position in range(0, len(status)):
             letter_position = position + 1
-            if letter_position in res:
+            if letter_position in result:
                 status2 = status2 + chosen_letter # status[position].replace("_", chosen_letter)
             else:
                 status2 = status2 + status[position]
         status = status2
-    return status
+        unsuccessful_try = False
+            
+    return (status, unsuccessful_try)
                           
 def evaluate_status(status):
     """This function evaluates the status of the replaced underscores and returns,
@@ -48,37 +52,57 @@ def evaluate_status(status):
         move_on = False
     return move_on 
 
-def move_count(word, status, move_on):
-    """ This functions counts the moves and returns the evaluation status"""
-    for move in range(9):
+# def move_count(word, status, move_on):
+#     """ This functions counts all the moves and returns the evaluation status"""
+#     for move in range(9):
+#         chosen_letter = str(input("Please select a letter: "))
+#         # print(chosen_letter)
+#         if len(chosen_letter) == 1: # in case input is a single letter, continue:
+#             result = evaluate_position(chosen_letter, word)   
+#             # print(result)
+#             status = evaluate_letter(status, result, chosen_letter)
+#             print(status)
+#             print("This was move number: ", move + 1)
+#         else:
+#             print("Please enter a single letter!")
+#             print("This was move number: ", move + 1)
+#         move_on = evaluate_status(status)
+#         if move_on == False:
+#             break
+    
+def make_move(word, status, move_on):
+    miss_count = 0
+    while miss_count < 9:
         chosen_letter = str(input("Please select a letter: "))
         # print(chosen_letter)
         if len(chosen_letter) == 1: # in case input is a single letter, continue:
-            res = evaluate_position(chosen_letter, word)   
-            # print(res)
-            status = evaluate_letter(status, res, chosen_letter)
+            result = evaluate_position(chosen_letter, word)   
+            # print(result)
+            status, unsuccessfull_try = evaluate_letter(status, result, chosen_letter)
             print(status)
-            print("This was move number: ", move + 1)
+            if unsuccessfull_try == True:
+                miss_count = miss_count + 1
+                print("This was unsuccessful try number: ", miss_count)
+            # else:
+                # miss_count = miss_count
         else:
             print("Please enter a single letter!")
-            print("This was move number: ", move + 1)
         move_on = evaluate_status(status)
         if move_on == False:
             break
-        
     return move_on
 
 
 def hang_man():
     """ This is the function for the actual hang_man using and calling all the functions above. 
     """
-    word = word_generator("lalalala", "lelelele", "lililili") # calls the word generator to randomly choose one of these words
+    word = word_generator("lalinea", "pyladies", "awesome") # calls the word generator to randomly choose one of these words
     status = "_" * len(word) # a status with the length of the chosen word will be generated
     print(status)
             
     move_on = True
     while move_on == True:
-        move_on = move_count(word, status, move_on)
+        move_on = make_move(word, status, move_on)   # move_count(word, status, move_on)
         # print(move_on)
         if move_on == False:
             break
