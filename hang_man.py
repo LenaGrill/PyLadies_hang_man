@@ -112,7 +112,3 @@ def hang_man():
     
 hang_man()
 
-""" The only error I find so far is that winning is printed twice.
-
-Improvements to make: Currently, the input of several letters is counted as a move, 
-but doesn't """
