@@ -1,9 +1,9 @@
 def word_generator(a, b, c):
-    """ This function will randomly return one out of three words"""
+    """ This function randomly returns one out of three words"""
     from random import randrange
 
-    word_nr = randrange(3) # random numbers between 1 and 3 will be generated
-    if word_nr == 0:    # random numbers will be allocated to three different words
+    word_nr = randrange(3) # random numbers between 1 and 3 are generated
+    if word_nr == 0:    # random numbers are allocated to three different words
         word = a
     elif word_nr == 1:
         word = b
@@ -12,7 +12,7 @@ def word_generator(a, b, c):
     return word
 
 def evaluate_position(chosen_letter, word):
-    """ this for loop returns a list res with the positions of the chosen_letter """
+    """ this for loop returns a list result with the positions of the chosen_letter """
     result = []
     for i in range(0, len(word)): 
         #print(i)
@@ -71,9 +71,12 @@ def evaluate_status(status):
 #             break
     
 def make_move(word, status, move_on):
+    """ This function asks for an input letter, calls positional and letter evaluation, 
+    only counts unsuccessful tries, evaluates the status and returns move_on """
     miss_count = 0
     while miss_count < 9:
         chosen_letter = str(input("Please select a letter: "))
+        chosen_letter = chosen_letter.lower()
         # print(chosen_letter)
         if len(chosen_letter) == 1: # in case input is a single letter, continue:
             result = evaluate_position(chosen_letter, word)   
