@@ -22,7 +22,7 @@ def evaluate_position(chosen_letter, word):
 
 def evaluate_letter(status, res, chosen_letter):
     """ This function evaluates, if the chosen_letter is contained in the given word 
-    and replaces underline by the chosen_letter"""
+    and replaces underscore by chosen_letter"""
     if res == []: # if list res is empty, the chosen letter is not contained in the word
         print("Wrong letter!")
         # print(status)         
@@ -42,16 +42,12 @@ def evaluate_status(status):
     if "_" in status:
         move_on = True
     else:
-        print("You won!")
+        print("You win!")
         move_on = False
     return move_on 
 
-def hang_man():
-    word = word_generator("lalalala", "lelelele", "lililili") # calls the word generator to randomly choose one of these words
-    status = "_" * len(word) # a status with the length of the chosen word will be generated
-    print(status)
-    move_on = True
-    while move_on == True:
+def move_count(word, status, move_on):
+    for move in range(9):
         chosen_letter = str(input("Please select a letter: "))
         # print(chosen_letter)
         if len(chosen_letter) == 1: # in case input is a single letter, continue:
@@ -59,10 +55,36 @@ def hang_man():
             # print(res)
             status = evaluate_letter(status, res, chosen_letter)
             print(status)
-            move_on = evaluate_status(status)   
-       
+            print("This was move number: ", move + 1)
+             
         else:
             print("Please enter a single letter!")
-            move_on = True
+            
+        move_on = evaluate_status(status)
+        if evaluate_status(status) == False:
+            break
+        
+    return move_on
+
+
+def hang_man():
+    word = word_generator("lalalala", "lelelele", "lililili") # calls the word generator to randomly choose one of these words
+    status = "_" * len(word) # a status with the length of the chosen word will be generated
+    print(status)
+            
+    move_on = True
+    while move_on == True:
+        move_on = move_count(word, status, move_on)
+        # print(move_on)
+        if move_on == False:
+            break
+        else:
+            print("You loose!")
+            break
+    
+     
+        
+    
+        
 
 hang_man()
