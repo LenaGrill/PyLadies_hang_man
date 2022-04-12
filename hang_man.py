@@ -53,7 +53,7 @@ def evaluate_status(status):
     return move_on 
 
 # def move_count(word, status, move_on):
-#     """ This functions counts all the moves and returns the evaluation status"""
+#     """ This function counts all the moves and returns the evaluation status"""
 #     for move in range(9):
 #         chosen_letter = str(input("Please select a letter: "))
 #         # print(chosen_letter)
@@ -100,7 +100,7 @@ def hang_man():
     """ This is the function for the actual hang_man using and calling all the functions above. 
     """
     word = word_generator("lalinea", "pyladies", "awesome") # calls the word generator to randomly choose one of these words
-    status = "_" * len(word) # a status with the length of the chosen word will be generated
+    status = "_" * len(word) # generates a status with the length of the chosen word
     print(status)
             
     move_on = True
